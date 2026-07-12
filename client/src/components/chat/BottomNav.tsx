@@ -23,7 +23,7 @@ export default function BottomNav() {
   const isChats = !isCommunity && !isProfile;
 
   return (
-    <nav className="flex shrink-0 items-stretch border-t border-border bg-card md:hidden">
+    <nav className="pb-safe flex shrink-0 items-stretch border-t border-border bg-card md:hidden">
       <NavButton href="/chat" icon="chats" label="Chats" isActive={isChats} />
       <NavButton
         href="/chat/people"

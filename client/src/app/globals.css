@@ -68,6 +68,42 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-default), sans-serif;
+
+    /* Installed apps should not feel like a web page.
+     *
+     * - overscroll-behavior stops the rubber-band bounce and, more importantly,
+     *   pull-to-refresh: in a standalone chat app, dragging down at the top of a
+     *   thread and having the whole app reload is jarring and loses your place.
+     * - No text-size adjust, so rotating an iPhone does not silently reflow every
+     *   message. */
+    overscroll-behavior-y: none;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Long-pressing a message must not pop iOS's blue selection UI over the top of
+   * our own menu. Text inside a bubble is still selectable — see below. */
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  /**
+   * Safe-area insets.
+   *
+   * With viewport-fit=cover the app draws under the notch and the home
+   * indicator, which is what makes it feel full-screen. These put the *content*
+   * back inside the safe region — without them, the composer sits under the home
+   * bar and the bottom nav is half-swallowed on every iPhone since the X.
+   *
+   * max() rather than the raw env(): on a device with no notch the inset is 0,
+   * and we still want the normal padding.
+   */
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+  .pt-safe {
+    padding-top: max(env(safe-area-inset-top), 0px);
   }
 }
 

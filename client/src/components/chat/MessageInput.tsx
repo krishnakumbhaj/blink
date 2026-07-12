@@ -155,14 +155,14 @@ export default function MessageInput({
 
   if (blockedReason) {
     return (
-      <div className="border-t border-border px-4 py-4 text-center">
+      <div className="pb-safe border-t border-border px-4 py-4 text-center">
         <p className="text-sm text-muted-foreground">{blockedReason}</p>
       </div>
     );
   }
 
   return (
-    <div className="border-t border-border">
+    <div className="pb-safe border-t border-border">
       {pending.length > 0 && (
         <div className="scrollbar-slim flex gap-2 overflow-x-auto border-b border-border px-4 py-2.5">
           {pending.map((item) => (
