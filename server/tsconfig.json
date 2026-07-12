@@ -1,0 +1,26 @@
+{
+  // Editor + typecheck config. Covers src AND scripts, so the test harnesses are
+  // part of the project and the IDE stops reporting them as orphaned files.
+  // Emitting is handled by tsconfig.build.json, which is why noEmit is set here:
+  // scripts/ sits outside rootDir, and rootDir must contain every emitted file.
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+
+    // node16 rather than the legacy "node" (= node10), which TypeScript has
+    // deprecated and removes in 7.0. package.json has no "type": "module",
+    // so node16 still emits CommonJS — `node dist/index.js` keeps working.
+    "module": "node16",
+    "moduleResolution": "node16",
+
+    "types": ["node"],
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts", "scripts/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

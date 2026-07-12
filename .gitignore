@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# builds
+.next/
+dist/
+out/
+
+# env — never commit secrets
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+
+# editor / os
+.DS_Store
+.vscode/
+.idea/
+
+# misc
+*.tsbuildinfo
+next-env.d.ts

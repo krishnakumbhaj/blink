@@ -1,0 +1,13 @@
+{
+  // Build config: compiles src/ -> dist/ only. The test harnesses in scripts/ are
+  // run directly with tsx and must not end up in the production bundle.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "scripts"]
+}

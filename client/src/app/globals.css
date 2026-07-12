@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Off-white canvas, pure-white surfaces, black ink.
+ *
+ * The canvas is deliberately NOT #FFFFFF. If the page were pure white there
+ * would be nowhere to go for a raised surface — you cannot make a card lighter
+ * than white — so cards would have to be grey, reading as recessed rather than
+ * elevated. Starting a hair off-white means plain white *is* the elevation, and
+ * a black-accent design stays crisp instead of muddy.
+ *
+ * These are the shadcn tokens, so Button / Input / Form / Toast inherit the
+ * theme automatically — there is no per-component colour to keep in sync.
+ */
+@layer base {
+  :root {
+    --font-default: var(--font-inter);
+
+    /* #FAFAF9 — the canvas */
+    --background: 60 9% 98%;
+    --foreground: 0 0% 4%;
+
+    /* #FFFFFF — raised: cards, incoming bubbles, the composer, the sidebar */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+
+    /* Black is the accent. White is what sits on top of it. */
+    --primary: 0 0% 4%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 0 0% 4%;
+    --accent-foreground: 0 0% 100%;
+
+    /* #F5F5F4 — hover fills, day separators, skeletons */
+    --secondary: 60 5% 96%;
+    --secondary-foreground: 0 0% 4%;
+    --muted: 60 5% 96%;
+    /* #78716C — timestamps, message previews, secondary labels */
+    --muted-foreground: 25 5% 45%;
+
+    /* Errors stay in-palette: black on white, distinguished by weight. */
+    --destructive: 0 0% 4%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* #E7E5E4 — dividers. Decorative, so they can stay soft. */
+    --border: 20 6% 90%;
+
+    /* Form fields are NOT decorative. An input's fill is white on a white card,
+     * so its border is the only thing saying "this is a field". It must clear
+     * the 3:1 WCAG asks of a UI component boundary — a soft #E7E5E4 would not.
+     * #928B87 clears it on the white card (3.35:1) AND on the canvas (3.21:1),
+     * since inputs appear on both. */
+    --input: 25 5% 55%;
+
+    --ring: 0 0% 4%;
+
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-default), sans-serif;
+  }
+}
+
+/* The sidebar and thread scroll a lot; a chunky scrollbar wrecks the look. */
+@layer utilities {
+  .scrollbar-slim {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  .scrollbar-slim::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-slim::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 9999px;
+  }
+  .scrollbar-slim::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
