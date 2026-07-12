@@ -540,12 +540,30 @@ The backend holds long-lived WebSocket connections, so it **cannot** run on a se
 | Start command | `npm start` |
 | Environment | `MONGODB_URI`, `JWT_SECRET`, `CLIENT_ORIGIN` (your deployed client URL) |
 
-**Frontend → Vercel**
+**Frontend → Render or Vercel**
 
 | Setting | Value |
 |---|---|
 | Root directory | `client` |
+| Build command | `npm install && npm run build` |
+| Start command | `npm start` |
 | Environment | `NEXT_PUBLIC_CHAT_SERVER_URL` (your deployed server URL) |
+
+**Do not set `PORT`.** The host injects it, and the server reads it. Hard-coding one is how you get "No open ports detected".
+
+`NEXT_PUBLIC_` variables are read at **build** time, so `NEXT_PUBLIC_CHAT_SERVER_URL` must be set *before* the client build runs — not after.
+
+### Why there is an `.npmrc` in each service
+
+Render (like most hosts) sets `NODE_ENV=production`, and npm then **skips `devDependencies` entirely**. But both builds need them: `typescript` and every `@types/*` package for the server, `typescript` + `tailwindcss` + `postcss` for the client.
+
+Without `include=dev` the server deploy fails with a genuinely misleading error:
+
+```
+error TS2688: Cannot find type definition file for 'node'
+```
+
+— not "tsc: not found", because `@types/node` happens to arrive transitively via a runtime package while TypeScript itself does not. The `.npmrc` affects **install only**; nothing extra ships to the running service, since the build compiles TypeScript away.
 
 Set `CLIENT_ORIGIN` on the server to the deployed client URL, or the browser's requests will be blocked by CORS.
 
